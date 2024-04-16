@@ -154,7 +154,7 @@ def items_scafold():
         {
             "id":           "rare_max_hp",
             "name":         "Elixir da Vitalidade Superior",
-            "description":  "Um elixir capaz de aumentar a VIDA MÁXIMA. Um frasco grande com um líquido verde. Estrengthanhamente isso tem cheiro de maçã verde!",
+            "description":  "Um elixir capaz de aumentar a VIDA MÁXIMA. Um frasco grande com um líquido verde. Estranhamente isso tem cheiro de maçã verde!",
             "attr":         "max_hp",
             "dice":         0,
             "dice_amount":   0,
@@ -238,7 +238,7 @@ def items_scafold():
         {
             "id":           "legendary_max_actions",
             "name":         "Pergaminho de Combate Lendário",
-            "description":  "Um pergaminho capaz de aumentar a quantidade de AÇÕES MÁXIMAS. Repeleto de técnicas avançadas e táticas de combate especializado no abate de capivaras.",
+            "description":  "Um pergaminho capaz de aumentar a quantidade de AÇÕES MÁXIMAS. Você vê um pergaminho dourado sem nada escrito. Se tivesse algum mestre por aqui ele poderia lhe explicar o signigcado poético disso.",
             "attr":         "max_actions",
             "dice":         0,
             "dice_amount":   0,

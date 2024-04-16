@@ -47,9 +47,7 @@ def enchants() -> list:
 def get_random_enchant() -> dict:
     enchant_list = enchants()
 
-    roll = random.randint(0,len(enchant_list) - 1)
-
-    return enchant_list[roll]
+    return random.choices(enchant_list, weights=[0.3, 0.3, 0.4])[0]
 
 def apply_effect(player_data, attack_weapon, enemy_data):
     damage = 0
@@ -58,12 +56,12 @@ def apply_effect(player_data, attack_weapon, enemy_data):
     match attack_weapon['enchant']['type']:
         case 0:
             values = [random.randint(1, attack_weapon['enchant']['damage_dice']) for _ in range(attack_weapon['enchant']['dice_amount'])]
-            damage += sum(values) + attack_weapon['rarity']
+            damage += sum(values)
         case 1:
-            frozen = True if random.randint(1, 100) <= (attack_weapon['enchant']['chance'] + (attack_weapon['rarity'] * 10)) else False
+            frozen = True if random.randint(1, 100) <= (attack_weapon['enchant']['chance']) else False
         case 2:
             values = [random.randint(1, attack_weapon['enchant']['damage_dice']) for _ in range(attack_weapon['enchant']['dice_amount'])]
-            heal = min(sum(values) + attack_weapon['rarity'], (player_data['max_hp'] - player_data['cur_hp']))
+            heal = min(sum(values), (player_data['max_hp'] - player_data['cur_hp']))
     
     return {
         'damage':   damage,

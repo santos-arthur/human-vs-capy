@@ -27,8 +27,6 @@ def get_random_armor(game_data: dict) -> dict:
     
     item = random.choice(armor_group)
 
-    item['rarity'] = max(0, armor_group-1)
-
     return item
 
 def show_armor(armor: dict):
@@ -77,55 +75,64 @@ def armors_scafold() -> list:
             {
                 'name': 'Camiseta',
                 'description': 'Uma camiseta do Fã Clube das Capivaras, você vai mesmo usar isso?',
-                'armor_modifier': 0
+                'armor_modifier': 0,
+                'rarity': 0
             }
         ],
         [
             {
                 'name': 'Armadura de Couro',
                 'description': 'Uma armadura feita com couro de Capivara. Além de proteger, intimida elas!',
-                'armor_modifier': 1
+                'armor_modifier': 1,
+                'rarity': 0
             },
             {
                 'name': 'Gibão de Pele',
                 'description': 'Um colete de pele reforçado feito com pele de animais de grande porte. Talvez de uma capivara bem grande?',
-                'armor_modifier': 2
+                'armor_modifier': 2,
+                'rarity': 0
             },
         ],
         [
             {
                 'name': 'Cotas de Malha',
                 'description': 'Um colete de anéis de metal! Muito útil para parar as moridas das capivaras.',
-                'armor_modifier': 3
+                'armor_modifier': 3,
+                'rarity': 1
             },
             {
                 'name': 'Armadura de Placas',
                 'description': 'Uma armadura feita de placas de metal resistente! Ideal para enfrentar até as capivaras mais furiosas.',
-                'armor_modifier': 4
+                'armor_modifier': 4,
+                'rarity': 1
             },
         ],
         [
             {
                 'name': 'Armadura Completa',
                 'description': 'Uma armadura quase impenetrável! A não ser por uma pequena brecha no joelho.',
-                'armor_modifier': 5
+                'armor_modifier': 5,
+                'rarity': 2
             },
             {
                 'name': 'Tanguinha de Texugo',
                 'description': 'Isso é tudo que um guerreiro precisa. Tem até um lugar para colocar flores.',
-                'armor_modifier': 6
+                'armor_modifier': 6,
+                'rarity': 2
             },
         ],
         [
             {
                 'name': 'Armadura de Escamas',
                 'description': 'Uma armadura feita com escamas de dragão! Mas, espera aí, essas escamas tem pelo?',
-                'armor_modifier': 7
+                'armor_modifier': 7,
+                'rarity': 3
             },
             {
                 'name': 'Armadura de Diamantes',
                 'description': 'Alguém resolveu cobrir uma armadura inteira com diamantes! Isso é muito caro, mas por algum motivo estranho, as capivaras parecem ter dificuldade de acertar ataques contra ela.',
-                'armor_modifier': 8
+                'armor_modifier': 8,
+                'rarity': 3
             },
         ]
     ]

@@ -19,12 +19,12 @@ def get_rarity(game_data: dict) -> int:
     roll = random.randint(0, 100) 
     match game_data['difficulty']:
         case 0:
-            roll += int(game_data['level'] * 2)
+            roll += int(game_data['level'] * 6)
         case 1:
-            roll += int(game_data['level'] * 1)
+            roll += int(game_data['level'] * 4)
         case 2:
-            roll += int(game_data['level'] * 0.5)
-    if roll <= 50:
+            roll += int(game_data['level'] * 2)
+    if roll <= 45:
         rarity = 0 # Comum
     elif roll <= 75:
         rarity = 1 # Incomum
@@ -72,12 +72,12 @@ def get_random_loot(game_data: dict) -> dict:
     loot_ratiry = get_rarity(game_data)
     roll = random.randint(0, 100) 
 
-    if roll <= 40:
+    if roll <= 30:
         return{
             'type': 'armor',
             'item': armor_module.get_random_armor(game_data)
         }
-    elif roll <= 80:
+    elif roll <= 60:
         return{
             'type': 'weapon',
             'item': weapon_module.get_random_weapon(game_data, loot_ratiry)
