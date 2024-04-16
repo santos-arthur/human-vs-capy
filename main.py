@@ -10,7 +10,7 @@ while True:
         case 'new_game':
             game_module.new_game()
         case 'continue_game':
-            game_module.run_game()
+            game_module.continue_game()
         case 'leaderboard':
             leaderboard_module.show_leaderboard()
         case 'configs':

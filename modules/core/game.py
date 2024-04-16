@@ -27,35 +27,20 @@ def new_game():
     enemy_module.wipe_status()
 
     utils_module.clear()
-    long_text = "Seja Bem-Vindo ao Human vs Capy, um simulador muito realisata de matar capivara."
-    text = utils_module.split_into_lines(long_text, 40)
-    for line in text:   
-        utils_module.centered_print(line)
-    print()
+    presentation = [
+        "Seja Bem-Vindo ao Human vs Capy, um simulador muito realisata de matar capivara.",
+        "Caso você seja um fiscal do IBAMA, vá embora agora, não tem nada pra você aqui!",
+        "Todavia, se você for uma pessoa que nutre profundo ódio contra as Capivaras, este jogo é pra você!",
+        "Você deve se infiltrar no covil da capivaras e acabar com essa ameaça de roedores!",
+        "No caminho você irá enfrentar diversas capivaras em 10 Níveis diferentes. Algumas capivaras são mais fortes que outras, então tome muito cuidado.",
+        "Matar capivaras lhe concede pontos e a chance de ganhar novos itens e melhorias para o seu personagem.",
+    ]
 
-    long_text = "Caso você seja um fiscal do IBAMA, vá embora agora, não tem nada pra você aqui!"
-    text = utils_module.split_into_lines(long_text, 40)
-    for line in text:   
-        utils_module.centered_print(line)
-    print()
-
-    long_text = "Todavia, se você for uma pessoa que nutre profundo ódio contra as Capivaras, este jogo é pra você!"
-    text = utils_module.split_into_lines(long_text, 40)
-    for line in text:   
-        utils_module.centered_print(line)
-    print()
-
-    long_text = "Aqui você irá enfrentar diversas capivaras em 10 Níveis diferentes. Algumas capivaras são mais fortes que outras, então tome muito cuidado."
-    text = utils_module.split_into_lines(long_text, 40)
-    for line in text:   
-        utils_module.centered_print(line)
-    print()
-
-    long_text = "Matar capivaras lhe concede pontos e a chance de ganhar novos itens e melhorias para o seu personagem."
-    text = utils_module.split_into_lines(long_text, 40)
-    for line in text:   
-        utils_module.centered_print(line)
-    print()
+    for long_text in presentation:
+        text = utils_module.split_into_lines(long_text, 40)
+        for line in text:   
+            utils_module.centered_print(line)
+        print()
 
     utils_module.press_any_key()
     utils_module.clear()
@@ -87,6 +72,8 @@ def run_game():
         if len(player_data['weapons']) > player_data['max_weapons']: #Validação para quando fecha o game enquanto limpa o inventário
             menu_module.clear_weapon_inventory(player_data)
 
+        new_level_generated = False
+
         if game_data['level'] == 0 or (game_data['enemies_remaining_in_level'] == 0 and game_data['level'] < 10):
             if game_data['level'] >= 1:
                 utils_module.clear()
@@ -107,8 +94,10 @@ def run_game():
 
                 utils_module.press_any_key()
             game_data = new_level(game_data)
+            new_level_generated = True
             save_status(game_data)
-            pass
+            enemy_module.wipe_status()
+
         elif (game_data['level'] >= 10 and game_data['enemies_remaining_in_level'] == 0) or (player_data['cur_hp'] <= 0):
             end_game(game_data, player_data)
             break
@@ -124,12 +113,27 @@ def run_game():
             )
             enemy_module.save_status(enemy_data)
             utils_module.clear()
-            long_text = f"Uma {enemy_data['name']} selvagem apareceu!"
-            for line in utils_module.split_into_lines(long_text, 30):
-                utils_module.centered_print(line)
+            if new_level_generated:
+                long_text = f"Você caminha em direção ao covil da capivaras."
+                for line in utils_module.split_into_lines(long_text, 30):
+                    utils_module.centered_print(line)
+                print()
+                
+                utils_module.centered_print("Quando derrepente...")
+                print()
+
+                utils_module.press_any_key()
+                utils_module.clear()
+
+                long_text = f"Uma {enemy_data['name']} selvagem apareceu!"
+                for line in utils_module.split_into_lines(long_text, 30):
+                    utils_module.centered_print(line)
+            else:
+                long_text = f"Uma {enemy_data['name']} selvagem vem correndo na sua direção!"
+                for line in utils_module.split_into_lines(long_text, 30):
+                    utils_module.centered_print(line)
             print()
             utils_module.press_any_key()
-        
         enemy_alive = enemy_data['cur_hp'] > 0
             
 
@@ -194,7 +198,7 @@ def run_game():
                         break
 
 
-                    enemy_module.attack(enemy_data, player_data)
+                    enemy_module.attack(enemy_data, player_data, game_data)
                     utils_module.press_any_key()
                     utils_module.clear()
                     utils_module.centered_print('TURNO DO INIMIGO')
@@ -241,6 +245,40 @@ def run_game():
         loot_module.wipe_status()
         player_module.save_status(player_data)
         save_status(game_data)
+
+def continue_game():
+    
+    player_data = player_module.load_status()
+
+    game_data = load_status()
+    enemies_text = f"até o momento você já matou {game_data['enemies_defeated']} inimigos." if game_data['enemies_defeated'] > 0 else "você ainda não matou nenhum inimigo."
+
+    enemy_data = enemy_module.load_status()
+    if enemy_data is None:
+     enemy_text = "Você andava por aí tranquilamente até fechar o jogo."
+    elif enemy_data['cur_hp'] == 0:
+         enemy_text = f"Você havia acabado de derrotar uma {enemy_data['name']} selvagem antes de fechar o jogo."
+    else:
+        enemy_text = f"Você estava sendo atacado por uma {enemy_data['name']} selvagem quando fechou o jogo e fugiu de medo."
+
+    presentation = [
+        "Seja Bem-Vindo novamente ao Human vs Capy, um simulador muito realisata de matar capivara.",
+        "Caso você seja um fiscal do IBAMA, blá blá blá, você já leu tudo isso antes.",
+        f"Caso você tenha esquecido, seu nome é {player_data['name']} e {enemies_text}",
+        "Anteriormente...",
+        enemy_text
+    ]
+
+    for long_text in presentation:
+        text = utils_module.split_into_lines(long_text, 40)
+        for line in text:   
+            utils_module.centered_print(line)
+        print()
+
+    utils_module.press_any_key()
+    utils_module.clear()
+
+    run_game()
 
 def new_level(game_data: dict) -> dict:
     game_data['level'] += 1
