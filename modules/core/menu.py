@@ -461,7 +461,7 @@ def show_credtis():
     print(name_padding + " " * (len(name) + 2) + credit)
     print()
     
-    utils_module.centered_print("Agradescimentos especiais:")
+    utils_module.centered_print("Agradecimentos especiais:")
     utils_module.centered_print("Lucas Novack")
     utils_module.centered_print("Lucas Ortiz (Gaúcho)")
     utils_module.centered_print("Pedro Vilmar dos Santos")
