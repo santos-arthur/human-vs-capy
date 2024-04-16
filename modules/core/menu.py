@@ -40,12 +40,12 @@ def main_menu() -> str:
                 utils_module.beep(150, 0.2)
 
 def show_menu(highlighted_option: int, menu_options: list):
-    for menu_option in menu_options:
+    for index, menu_option in enumerate(menu_options, start=0):
         label   = f"  {menu_option['label']}  "
         padding = utils_module.centered_text_padding(label)
         print(Fore.WHITE + Back.RESET + padding, end='', sep='')
 
-        if highlighted_option == menu_options.index(menu_option):
+        if highlighted_option == index:
             print(Fore.BLACK + Back.WHITE, end='', sep='')
 
         print(label + Fore.WHITE + Back.RESET)
