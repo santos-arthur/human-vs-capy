@@ -64,13 +64,13 @@ def get_all_enemies():
                     'actions': 1,
                 }
             ],
-            'armor_class': 10,
+            'armor_class': 8,
             'points': 1,
             'frozen': False
         },
         {
             'id': 1,
-            'name': 'Capitão Capivara',
+            'name': 'Capivara Comandante',
             'description': 'Uma capivara que comanda as outras? Ela grita em capivarês "Cadê minhas capivarinhas?" e todas as outras gritam "Cri-Cri-Cri-Cri".',
             'max_hp': 8,
             'cur_hp': 8,
@@ -92,7 +92,7 @@ def get_all_enemies():
                     'actions': 2,
                 },
             ],
-            'armor_class': 12,
+            'armor_class': 10,
             'points': 2,
             'frozen': False
         },
@@ -120,7 +120,7 @@ def get_all_enemies():
                     'actions': 1,
                 },
             ],
-            'armor_class': 15,
+            'armor_class': 14,
             'points': 4,
             'frozen': False
         },
@@ -190,7 +190,7 @@ def get_all_enemies():
                     'actions': 2,
                 },
             ],
-            'armor_class': 18,
+            'armor_class': 16,
             'points': 10,
             'frozen': False
         },
@@ -208,9 +208,9 @@ def show_card(enemy_data: dict, show_detailed: bool = False):
     
     print("╠" + "═" * 16 + "╦" + "═" * 12 + "╦" + "═" * 16 + "╣")
     
-    if ((enemy_data['cur_hp'] * 100) / enemy_data["max_hp"]) > 50:
+    if ((enemy_data['cur_hp'] * 100) / enemy_data["max_hp"]) > 60:
         hp_color = Fore.GREEN
-    elif ((enemy_data['cur_hp'] * 100) / enemy_data["max_hp"]) > 25:
+    elif ((enemy_data['cur_hp'] * 100) / enemy_data["max_hp"]) > 20:
         hp_color = Fore.YELLOW
     else:
         hp_color = Fore.RED
@@ -268,7 +268,10 @@ def attack(enemy_data: dict, player_data: dict):
     attackHits = roll + enemy_attack['modifier'] >= player_module.get_armor_class(player_data)
     criticalHit = roll == 20
     damage = 0
-    utils_module.centered_print(f"{enemy_data['name']} usou o ataque {enemy_attack['name']}")
+    long_text = f"{enemy_data['name']} usou o ataque {enemy_attack['name']}"
+    text = utils_module.split_into_lines(long_text, 36)
+    for line in text:
+        utils_module.centered_print(line)
     print()
     if attackHits:
         damage = sum(random.randint(1, enemy_attack['damage_dice']) for _ in range(enemy_attack['dice_amount']))

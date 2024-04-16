@@ -79,6 +79,10 @@ def show_congratulations():
     congrats = open("resources/congratulations.txt", "r")
     print(congrats.read())
 
+def show_level_up():    
+    level_up = open("resources/level_up.txt", "r")
+    print(level_up.read())
+
 def show_lose():    
     lose = open("resources/lose.txt", "r")
     print(lose.read())

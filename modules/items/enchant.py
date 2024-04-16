@@ -58,12 +58,12 @@ def apply_effect(player_data, attack_weapon, enemy_data):
     match attack_weapon['enchant']['type']:
         case 0:
             values = [random.randint(1, attack_weapon['enchant']['damage_dice']) for _ in range(attack_weapon['enchant']['dice_amount'])]
-            damage += sum(values)
+            damage += sum(values) + attack_weapon['rarity']
         case 1:
-            frozen = True if random.randint(1, 100) <= attack_weapon['enchant']['chance'] else False
+            frozen = True if random.randint(1, 100) <= (attack_weapon['enchant']['chance'] + (attack_weapon['rarity'] * 10)) else False
         case 2:
             values = [random.randint(1, attack_weapon['enchant']['damage_dice']) for _ in range(attack_weapon['enchant']['dice_amount'])]
-            heal = min(sum(values), (player_data['max_hp'] - player_data['cur_hp']))
+            heal = min(sum(values) + attack_weapon['rarity'], (player_data['max_hp'] - player_data['cur_hp']))
     
     return {
         'damage':   damage,

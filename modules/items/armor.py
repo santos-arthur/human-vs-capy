@@ -19,7 +19,7 @@ def clothes() -> dict:
         rarity=0
     )
 
-def get_random_armor(game_data: dict, rarity: int) -> dict:
+def get_random_armor(game_data: dict) -> dict:
     weights = loot_module.get_loot_weights(game_data)
     armor_groups = armors_scafold()
 
@@ -27,8 +27,7 @@ def get_random_armor(game_data: dict, rarity: int) -> dict:
     
     item = random.choice(armor_group)
 
-    item['armor_modifier'] += rarity
-    item['rarity'] = rarity
+    item['rarity'] = max(0, armor_group-1)
 
     return item
 
@@ -112,8 +111,8 @@ def armors_scafold() -> list:
                 'armor_modifier': 5
             },
             {
-                'name': 'Armadura de Diamantes',
-                'description': 'Alguém resolveu cobrir uma armadura inteira com diamantes! Isso é muito caro, mas por algum motivo estranho, as capivaras parecem ter dificuldade de acertar ataques contra ela.',
+                'name': 'Tanguinha de Texugo',
+                'description': 'Isso é tudo que um guerreiro precisa. Tem até um lugar para colocar flores.',
                 'armor_modifier': 6
             },
         ],
@@ -122,6 +121,11 @@ def armors_scafold() -> list:
                 'name': 'Armadura de Escamas',
                 'description': 'Uma armadura feita com escamas de dragão! Mas, espera aí, essas escamas tem pelo?',
                 'armor_modifier': 7
-            }
+            },
+            {
+                'name': 'Armadura de Diamantes',
+                'description': 'Alguém resolveu cobrir uma armadura inteira com diamantes! Isso é muito caro, mas por algum motivo estranho, as capivaras parecem ter dificuldade de acertar ataques contra ela.',
+                'armor_modifier': 8
+            },
         ]
     ]

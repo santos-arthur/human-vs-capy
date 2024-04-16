@@ -177,6 +177,7 @@ def actions_menu(player_data: dict, enemy_data: dict, game_data: dict) -> str:
     highlighted_option = { 'row': 0, 'column': 0 }
     while True:        
         utils_module.clear()
+        utils_module.centered_print('SEU TURNO')
         player_module.show_card(player_data, game_data)
         utils_module.centered_print("INIMIGO")
         enemy_module.show_card(enemy_data, False)
@@ -193,7 +194,7 @@ def actions_menu(player_data: dict, enemy_data: dict, game_data: dict) -> str:
             if key_pressed not in ('up', 'down', 'left', 'right'):
                 utils_module.beep(150, 0.2)        
 
-def show_attacks_menu(attacks_menu_options: list, highlighted_option):
+def show_attacks_menu(attacks_menu_options: list, highlighted_option: int, player_data: dict):
     
     print("╔" + "═" * 20 + "╦" + "═" * 9 + "╦" + "═" * 7 + "╦" + "═" * 7 + "╗")
     print("║ Nome" + " " * 15 + "║ Dano    ║ Ações ║ Poder ║")
@@ -210,7 +211,7 @@ def show_attacks_menu(attacks_menu_options: list, highlighted_option):
         else:
             damage += '+'
         
-        damage += str(weapon['modifier'])
+        damage += str(weapon['modifier'] + player_data['strength']) 
 
         if highlighted_option == id:
             print(Fore.BLACK + Back.WHITE, end='', sep='')
@@ -231,13 +232,14 @@ def attacks_menu(player_data: dict, enemy_data: dict, game_data: dict) -> str:
     highlighted_option = 0
     while True:        
         utils_module.clear()
+        utils_module.centered_print('SEU TURNO')
         player_module.show_card(player_data, game_data)
         utils_module.centered_print('INIMIGO')
         enemy_module.show_card(enemy_data, False)
         print()
         utils_module.centered_print('SELECIONE SEU ATAQUE')
         print()
-        show_attacks_menu(attacks_menu_options, highlighted_option)
+        show_attacks_menu(attacks_menu_options, highlighted_option, player_data)
         utils_module.centered_print('Backspace: Voltar | I: Mais Informações')
         key_pressed, highlighted_option = circular_menu(highlighted_option, len(attacks_menu_options))
         if key_pressed == 'enter':
@@ -267,7 +269,10 @@ def loot_menu(enemy_data: dict, enemy_loot: dict) -> bool:
     highlighted_option = 0
     while True:
         utils_module.clear()
-        utils_module.centered_print(f"{enemy_data['name']} deixou cair isso enquanto morria:")
+        long_text = f"{enemy_data['name']} deixou cair isso enquanto morria:"
+        text = utils_module.split_into_lines(long_text, 36)
+        for line in text:
+            utils_module.centered_print(line)
         print()
         match enemy_loot['type']:
             case 'weapon':
@@ -306,8 +311,11 @@ def clear_weapon_inventory(player_data: dict):
                 player_module.save_status(player_data)
                 return
         elif key_pressed == 'i':
+            utils_module.clear()
             utils_module.beep(800, 0.2)
             weapon_module.show_weapon(player_data['weapons'][highlighted_option])
+            print()
+            utils_module.press_any_key()
         else:
             if key_pressed not in ('up', 'down', 'i'):
                 utils_module.beep(150, 0.2)

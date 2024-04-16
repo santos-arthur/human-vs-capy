@@ -75,7 +75,7 @@ def get_random_loot(game_data: dict) -> dict:
     if roll <= 40:
         return{
             'type': 'armor',
-            'item': armor_module.get_random_armor(game_data, loot_ratiry)
+            'item': armor_module.get_random_armor(game_data)
         }
     elif roll <= 80:
         return{

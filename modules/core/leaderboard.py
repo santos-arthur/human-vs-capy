@@ -61,5 +61,5 @@ def show_leaderboard():
         
         print("╚" + "═" * 5 + "╩" + "═" * 28 + "╩" + "═" * 5 + "╩" + "═" * 5 + "╝")
 
-        print()
-        utils_module.press_any_key()
+    print()
+    utils_module.press_any_key()

@@ -174,7 +174,7 @@ def give_item(player_data: dict, item: dict):
                     utils_module.clear()
                     if menu_options[highlighted_option]['value']:
                         player_data['armor'] = item['item']
-                        break
+                    break
 
         case 'item':
             item_id = item['item']['id']
@@ -188,6 +188,7 @@ def give_item(player_data: dict, item: dict):
 
 def show_inventory(player_data: dict, game_data: dict):
     while True:
+        utils_module.clear()
         item = menu_module.show_inventory(player_data, game_data)
         if item is None:
             break
@@ -224,7 +225,7 @@ def use_item(player_data: dict, item: dict) -> bool:
             utils_module.centered_print(f"Você ganhou {value} pontos de FORÇA!")
         case 'dexterity':
             player_data['dexterity'] += value
-            utils_module.centered_print(f"Você ganhou {value} pontos de DESTREZA!")
+            utils_module.centered_print(f"Você ganhou {value} pontos de VELOCIDADE!")
         case 'max_actions':
             player_data['max_actions'] += value
             player_data['actions'] += value

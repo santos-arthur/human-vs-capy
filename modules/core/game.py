@@ -28,25 +28,38 @@ def new_game():
     enemy_module.wipe_status()
 
     utils_module.clear()
-    time.sleep(0.5)
-    print("Seja Bem-Vindo ao Human vs Capy, um simulador muito realisata de matar capivara.")
+    long_text = "Seja Bem-Vindo ao Human vs Capy, um simulador muito realisata de matar capivara."
+    text = utils_module.split_into_lines(long_text, 40)
+    for line in text:   
+        utils_module.centered_print(line)
     print()
-    time.sleep(0.5)
-    print("Caso você seja um fiscal do IBAMA, vá embora agora, não tem nada pra você aqui!")
+
+    long_text = "Caso você seja um fiscal do IBAMA, vá embora agora, não tem nada pra você aqui!"
+    text = utils_module.split_into_lines(long_text, 40)
+    for line in text:   
+        utils_module.centered_print(line)
     print()
-    time.sleep(0.5)
-    print("Todavia, se você for uma pessoa que nutre profundo ódio contra as Capivaras, este jogo é pra você!")
+
+    long_text = "Todavia, se você for uma pessoa que nutre profundo ódio contra as Capivaras, este jogo é pra você!"
+    text = utils_module.split_into_lines(long_text, 40)
+    for line in text:   
+        utils_module.centered_print(line)
     print()
-    time.sleep(0.5)
-    print("Aqui você irá enfrentar diversas capivaras em 10 Níveis diferentes. Algumas capivaras são mais fortes que outras, então tome muito cuidado.")
+
+    long_text = "Aqui você irá enfrentar diversas capivaras em 10 Níveis diferentes. Algumas capivaras são mais fortes que outras, então tome muito cuidado."
+    text = utils_module.split_into_lines(long_text, 40)
+    for line in text:   
+        utils_module.centered_print(line)
     print()
-    time.sleep(0.5)
-    print("Matar capivaras lhe concede pontos e a chance de ganhar novos itens e melhorias para o seu personagem.")
+
+    long_text = "Matar capivaras lhe concede pontos e a chance de ganhar novos itens e melhorias para o seu personagem."
+    text = utils_module.split_into_lines(long_text, 40)
+    for line in text:   
+        utils_module.centered_print(line)
     print()
-    time.sleep(0.5)
+
     utils_module.press_any_key()
     utils_module.clear()
-    time.sleep(0.5)
     
     name = menu_module.get_player_name()
 
@@ -75,20 +88,29 @@ def run_game():
         if len(player_data['weapons']) > player_data['max_weapons']: #Validação para quando fecha o game enquanto limpa o inventário
             menu_module.clear_weapon_inventory(player_data)
 
-        if game_data['level'] == 0 or game_data['enemies_remaining_in_level'] == 0:
+        if game_data['level'] == 0 or (game_data['enemies_remaining_in_level'] == 0 and game_data['level'] < 10):
             if game_data['level'] >= 1:
                 utils_module.clear()
-                utils_module.show_congratulations()
+                utils_module.show_level_up()
                 print()
                 utils_module.centered_print("Você passou de nível!")
                 print()
-                utils_module.centered_print("As capivaras deste nível devem ser")
-                utils_module.centered_print("ainda mais fortes que as outras!")
+                utils_module.centered_print("Você ganhou 5 pontos de vida")
+                utils_module.centered_print("e as suas ações foram maximizadas :)")
                 print()
+                utils_module.centered_print("Cuidado pois as capivaras à frente")
+                utils_module.centered_print("devem ser ainda mais fortes!")
+                print()
+                player_data['actions'] = player_data['max_actions']
+                player_data['cur_hp'] += 5
+                player_data['max_hp'] += 5
+                player_module.save_status(player_data)
+
                 utils_module.press_any_key()
             game_data = new_level(game_data)
+            save_status(game_data)
             pass
-        elif (game_data['level'] == 10 and game_data['enemies_remaining_in_level'] == 0) or (player_data['cur_hp'] <= 0):
+        elif (game_data['level'] >= 10 and game_data['enemies_remaining_in_level'] == 0) or (player_data['cur_hp'] <= 0):
             end_game(game_data, player_data)
             break
         
@@ -103,7 +125,7 @@ def run_game():
             )
             enemy_module.save_status(enemy_data)
             utils_module.clear()
-            long_text = f"Um(a) {enemy_data['name']} selvagem apareceu!"
+            long_text = f"Uma {enemy_data['name']} selvagem apareceu!"
             for line in utils_module.split_into_lines(long_text, 30):
                 utils_module.centered_print(line)
             print()
@@ -139,8 +161,6 @@ def run_game():
                         utils_module.centered_print('Você passou o seu turno!')
                         print()
                         utils_module.press_any_key()
-                        player_data['actions'] = player_data['max_actions']
-                        player_module.save_status(player_data)
                         break
 
             enemy_data = enemy_module.load_status()
@@ -150,31 +170,35 @@ def run_game():
                     player_data = player_module.load_status()
                     enemy_data  = enemy_module.load_status()
                     utils_module.clear()
+                    
+                    if player_data['cur_hp'] <= 0:
+                        enemy_alive = False
+                        break
+
                     if enemy_data['frozen']:
                         utils_module.centered_print(f"{enemy_data['name']} está congelado!")
                         print()
-                        utils_module.centered_print(f"{enemy_data['name']} perde seu turno!")
+                        utils_module.centered_print(f"{enemy_data['name']} perdeu o turno!")
                         print()
-                        enemy_data['frozen'] == False
+                        enemy_data['frozen'] = False
                         enemy_module.save_status(enemy_data)
                         utils_module.press_any_key()
                         break
                     elif enemy_data['actions'] == 0:
-                        utils_module.centered_print(f"Acabou o turno de {enemy_data['name']}.")
+                        utils_module.centered_print(f"Acabaram as ações de {enemy_data['name']}.")
+                        print()
+                        utils_module.centered_print(f"{enemy_data['name']} passou o turno.")
                         print()
                         enemy_data['actions'] = enemy_data['max_actions']
                         enemy_module.save_status(enemy_data)
                         utils_module.press_any_key()
                         break
 
-                    if player_data['cur_hp'] > 0:
-                        enemy_module.attack(enemy_data, player_data)
-                    else:
-                        enemy_alive = False
-                        break
 
+                    enemy_module.attack(enemy_data, player_data)
                     utils_module.press_any_key()
                     utils_module.clear()
+                    utils_module.centered_print('TURNO DO INIMIGO')
                     player_module.show_card(player_data, game_data)
                     utils_module.centered_print('INIMIGO')
                     enemy_module.show_card(enemy_data)
@@ -182,11 +206,17 @@ def run_game():
                     utils_module.press_any_key()
                 enemy_data['actions'] = enemy_data['max_actions']
                 enemy_module.save_status(enemy_data)
+                if player_data['cur_hp'] >= 0:
+                    player_data['actions'] = player_data['max_actions']
+                    player_module.save_status(player_data)
 
         if player_data['cur_hp'] <= 0:
             end_game(game_data, player_data)
             break
         
+        
+        player_data['points'] += enemy_data['points']
+        player_module.save_status(player_data)
         enemy_data = enemy_module.load_status()
         player_data = player_module.load_status()
         utils_module.clear()
@@ -237,6 +267,11 @@ def enemies_in_level(difficulty: int, level: int) -> int:
 
 def end_game(game_data: dict, player_data: dict):
     leaderboard_module.add_to_leaderboard(game_data, player_data)
+    utils_module.clear()
+    wipe_status()
+    player_module.wipe_status()
+    loot_module.wipe_status()
+    enemy_module.wipe_status()
     if player_data['cur_hp'] > 0:
         utils_module.show_congratulations()
         print()
