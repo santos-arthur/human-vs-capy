@@ -60,11 +60,12 @@ def get_all_enemies():
                     'name': 'Mordida',
                     'damage_dice': 4,
                     'dice_amount': 1,
-                    'modifier': 0,
+                    'damage_modifier': 0,
+                    'attack_modifier': 0,
                     'actions': 1,
                 }
             ],
-            'armor_class': 8,
+            'armor_class': 6,
             'points': 1,
             'frozen': False
         },
@@ -80,19 +81,21 @@ def get_all_enemies():
                 {
                     'name': 'Mordida',
                     'damage_dice': 4,
-                    'dice_amount': 2,
-                    'modifier': 1,
+                    'dice_amount': 1,
+                    'damage_modifier': 1,
+                    'attack_modifier': 1,
                     'actions': 1,
                 },
                 {
                     'name': 'Arranhão',
-                    'damage_dice': 6,
-                    'dice_amount': 1,
-                    'modifier': 2,
+                    'damage_dice': 4,
+                    'dice_amount': 2,
+                    'damage_modifier': 2,
+                    'attack_modifier': 1,
                     'actions': 2,
                 },
             ],
-            'armor_class': 10,
+            'armor_class': 8,
             'points': 2,
             'frozen': False
         },
@@ -108,19 +111,21 @@ def get_all_enemies():
                 {
                     'name': 'Mordida',
                     'damage_dice': 4,
-                    'dice_amount': 2,
-                    'modifier': 2,
+                    'dice_amount': 1,
+                    'damage_modifier': 2,
+                    'attack_modifier': 2,
                     'actions': 1,
                 },
                 {
                     'name': 'Pisão',
-                    'damage_dice': 6,
+                    'damage_dice': 4,
                     'dice_amount': 1,
-                    'modifier': 2,
+                    'damage_modifier': 2,
+                    'attack_modifier': 2,
                     'actions': 1,
                 },
             ],
-            'armor_class': 14,
+            'armor_class': 10,
             'points': 4,
             'frozen': False
         },
@@ -136,19 +141,21 @@ def get_all_enemies():
                 {
                     'name': 'Estocada com a Lança',
                     'damage_dice': 6,
-                    'dice_amount': 2,
-                    'modifier': 2,
+                    'dice_amount': 1,
+                    'damage_modifier': 2,
+                    'attack_modifier': 3,
                     'actions': 1,
                 },
                 {
                     'name': 'Cabeçada',
                     'damage_dice': 8,
-                    'dice_amount': 2,
-                    'modifier': 1,
+                    'dice_amount': 1,
+                    'damage_modifier': 0,
+                    'attack_modifier': 3,
                     'actions': 1,
                 },
             ],
-            'armor_class': 8,
+            'armor_class': 10,
             'points': 6,
             'frozen': False
         },
@@ -165,28 +172,24 @@ def get_all_enemies():
                     'name': 'Baforada de Fogo',
                     'damage_dice': 12,
                     'dice_amount': 4,
-                    'modifier': 5,
-                    'actions': 3,
+                    'damage_modifier': 5,
+                    'attack_modifier': 4,
+                    'actions': 4,
                 },
                 {
                     'name': 'Mordida',
-                    'damage_dice': 8,
-                    'dice_amount': 4,
-                    'modifier': 5,
-                    'actions': 1,
-                },
-                {
-                    'name': 'Arranhão',
                     'damage_dice': 6,
-                    'dice_amount': 5,
-                    'modifier': 5,
+                    'dice_amount': 2,
+                    'damage_modifier': 2,
+                    'attack_modifier': 4,
                     'actions': 1,
                 },
                 {
                     'name': 'Rabada',
                     'damage_dice': 4,
                     'dice_amount': 4,
-                    'modifier': 3,
+                    'damage_modifier': 3,
+                    'attack_modifier': 4,
                     'actions': 2,
                 },
             ],
@@ -257,7 +260,7 @@ def show_card(enemy_data: dict, show_detailed: bool = False):
         
         print("╚" + "═" * 46 + "╝")
 
-def attack(enemy_data: dict, player_data: dict):
+def attack(enemy_data: dict, player_data: dict, game_data: dict):
     enemy_attacks = enemy_data['attacks']
     
     while (enemy_attack := random.choice(enemy_attacks))['actions'] > enemy_data['actions']:
@@ -265,7 +268,7 @@ def attack(enemy_data: dict, player_data: dict):
     
     enemy_data['actions'] -= enemy_attack['actions']
     roll = random.randint(1, 20)
-    attackHits = roll + enemy_attack['modifier'] >= player_module.get_armor_class(player_data)
+    attackHits = roll + enemy_attack['attack_modifier'] + game_data['difficulty'] + (game_data['level'] // 2)>= player_module.get_armor_class(player_data)
     criticalHit = roll == 20
     damage = 0
     long_text = f"{enemy_data['name']} usou o ataque {enemy_attack['name']}"
@@ -275,7 +278,7 @@ def attack(enemy_data: dict, player_data: dict):
     print()
     if attackHits:
         damage = sum(random.randint(1, enemy_attack['damage_dice']) for _ in range(enemy_attack['dice_amount']))
-        damage += enemy_attack['modifier']
+        damage += enemy_attack['damage_modifier']
         if criticalHit:
             damage += enemy_attack['damage_dice']            
             utils_module.centered_print(f"{enemy_data['name']} causou um acerto crítico!")
