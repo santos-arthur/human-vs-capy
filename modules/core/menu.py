@@ -222,12 +222,10 @@ def show_attacks_menu(attacks_menu_options: list, highlighted_option: int, playe
     print("╚" + "═" * 20 + "╩" + "═" * 9 + "╩" + "═" * 7 + "╩" + "═" * 7 + "╝")
 
 def attacks_menu(player_data: dict, enemy_data: dict, game_data: dict) -> str:
-    attacks_menu_options = [
-        weapon_module.hand()
-    ]
-
+    attacks_menu_options = []
     for weapon in player_data['weapons']:
         attacks_menu_options.append(weapon)
+    attacks_menu_options.append(weapon_module.hand())
 
     highlighted_option = 0
     while True:        
@@ -241,6 +239,7 @@ def attacks_menu(player_data: dict, enemy_data: dict, game_data: dict) -> str:
         print()
         show_attacks_menu(attacks_menu_options, highlighted_option, player_data)
         utils_module.centered_print('Backspace: Voltar | I: Mais Informações')
+        utils_module.centered_print('Q: Soltar Arma')
         key_pressed, highlighted_option = circular_menu(highlighted_option, len(attacks_menu_options))
         if key_pressed == 'enter':
             utils_module.beep(800, 0.2)
@@ -251,6 +250,15 @@ def attacks_menu(player_data: dict, enemy_data: dict, game_data: dict) -> str:
                 utils_module.press_any_key()
             elif confirm_menu_action(f"Deseja atacar com {attacks_menu_options[highlighted_option]['name']}?"):
                 return attacks_menu_options[highlighted_option]
+        elif key_pressed == 'q':
+            utils_module.beep(800, 0.2)
+            utils_module.clear()
+            if highlighted_option == (len(attacks_menu_options) - 1):
+                utils_module.centered_print('Você não tem como soltar as suas mãos!')
+                print()
+                utils_module.press_any_key()
+            elif confirm_menu_action(f"Deseja mesmo soltar {attacks_menu_options[highlighted_option]['name']}?"): 
+                player_data['weapons'].pop(highlighted_option)
         elif key_pressed == 'backspace':
             utils_module.beep(800, 0.2)
             return None
@@ -300,7 +308,7 @@ def clear_weapon_inventory(player_data: dict):
         utils_module.clear()
         utils_module.centered_print("Você está carregando armas demais!")
         utils_module.centered_print("Escolha uma arma para deixar para trás:")
-        show_attacks_menu(player_data['weapons'], highlighted_option)
+        show_attacks_menu(player_data['weapons'], highlighted_option, player_data)
         utils_module.centered_print('I: Mais Informações')
         key_pressed, highlighted_option = circular_menu(highlighted_option, len(player_data['weapons']))
         if key_pressed == 'enter':
