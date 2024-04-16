@@ -7,7 +7,6 @@ import modules.entities.enemy as enemy_module
 import modules.items.armor as armor_module
 import modules.items.loot as loot_module
 import random
-import time
 
 GAME_DATA_FILE = 'saves/gameData.json'
 

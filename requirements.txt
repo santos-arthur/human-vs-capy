@@ -1,2 +1,4 @@
 keyboard
 colorama
+pyaudio
+numpy
