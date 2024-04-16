@@ -18,7 +18,7 @@ def load_status():
 def wipe_status():
     save_module.wipe_status(PLAYER_DATA_FILE)
 
-def create_player(name: str, max_hp: int = 10, cur_hp: int = 10, strength: int = 1, dexterity: int = 1, max_actions: int = 2, actions: int = 2, max_weapons: int = 2, weapons: list = [], armor: dict = {}, items: list = [], points: int = 0) -> dict:
+def create_player(name: str, max_hp: int = 10, cur_hp: int = 10, strength: int = 1, dexterity: int = 1, max_actions: int = 2, actions: int = 2, max_weapons: int = 3, weapons: list = [], armor: dict = {}, items: list = [], points: int = 0) -> dict:
     return {
         'name':         name,
         'max_hp':       max_hp,
@@ -83,11 +83,9 @@ def show_card(player_data: dict, game_data: dict):
     
     print("╚" + "═" * 10 + "╩" + "═" * 10  + "╩" + "═" * 11  + "╩" + "═" * 12 + "╝")
     
-
-
 def attack_rolls(player_data: dict, attack_weapon: dict, enemy_data: dict, game_data: dict):
     roll = random.randint(1, 20)
-    attack_hits = roll + player_data['strength'] + attack_weapon['modifier'] + (5 if game_data['difficulty'] == 0 else 0) >= enemy_data['armor_class']
+    attack_hits = roll + player_data['strength'] + attack_weapon['modifier'] + (5 - game_data['difficulty']) >= enemy_data['armor_class']
     critical_hit = roll == 20
 
     damage = 0
@@ -147,7 +145,7 @@ def attack(player_data: dict, attack_weapon: dict, enemy_data: dict, game_data: 
 def give_item(player_data: dict, item: dict):
     match item['type']:
         case 'weapon':
-            player_data['weapons'].append(item['item'])
+            player_data['weapons'].insert(0, item['item'])
 
             if len(player_data['weapons']) > player_data['max_weapons']:
                 menu_module.clear_weapon_inventory(player_data)
