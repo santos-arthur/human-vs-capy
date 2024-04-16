@@ -371,3 +371,12 @@ def show_inventory(player_data: dict, game_data: dict) -> dict:
             else:
                 if key_pressed not in ('up', 'down', 'backspace', 'i'):
                     utils_module.beep(150, 0.2)
+                    
+def get_config_menu_options() -> list:
+    return [
+        { 'label': 'Volume', 'type': 'bar', 'value': 'volume', 'min': 0, 'max': 100, 'step': 5},
+        { 'label': 'Apagar Histórico Paritdas', 'type': 'button', 'value': 'reset_leaderboard' },
+        { 'label': 'Redefinir Configurações', 'type': 'button', 'value': 'reset_configs' },
+        { 'label': 'Ajustar Tela', 'type': 'button', 'value': 'adjust_screen' },
+        { 'label': 'Voltar', 'type': 'button', 'value': 'exit' }
+    ]

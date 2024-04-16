@@ -1,5 +1,6 @@
 import modules.core.menu as menu_module
 import modules.core.game as game_module
+import modules.core.config as config_module
 import modules.core.leaderboard as leaderboard_module
 
 while True:
@@ -13,8 +14,7 @@ while True:
         case 'leaderboard':
             leaderboard_module.show_leaderboard()
         case 'configs':
-            print('CONFIGURAÇÕES')
-            input()
+            config_module.configs_menu()
         case 'credits':
             print('CREDITOS')
             input()
