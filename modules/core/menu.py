@@ -380,3 +380,96 @@ def get_config_menu_options() -> list:
         { 'label': 'Ajustar Tela', 'type': 'button', 'value': 'adjust_screen' },
         { 'label': 'Voltar', 'type': 'button', 'value': 'exit' }
     ]
+
+def show_credtis():
+    utils_module.clear()
+
+    utils_module.centered_print("CRÉDITOS")
+    print()
+
+    name = "Arthur Santos"
+    credit = ""
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    
+    name = "Alexander Vestewig"
+    credit = "Programadores"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+
+    
+    name = "Maria Fernanda"
+    credit = ""
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+
+    
+    name = "Arthur Santos"
+    credit = "Mestre do Jogo"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+    
+    
+    name = "Arthur Santos"
+    credit = "Armeiro e Escriba"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+
+
+    name = "Arthur Santos"
+    credit = "Sonoplastia"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+    
+    
+    name = "Alexander Vestewig"
+    credit = "Tabelista"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+
+    name = "Alexander Vestewig"
+    credit = "Técnico de Pirotecnia"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+    
+    
+    name = "Alexander Vestewig"
+    credit = "Engenheiro BioQuímico"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+
+    
+    name = "André Suave"
+    credit = "Consultoria"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    print()
+
+    
+    name = "André Suave"
+    credit = "Adestramento"
+    name_padding = " " * (23 - len(name))
+    print(name_padding + name + "  " + credit)
+    credit = "De Capivaras"
+    print(name_padding + " " * (len(name) + 2) + credit)
+    print()
+    
+    utils_module.centered_print("Agradescimentos especiais:")
+    utils_module.centered_print("Lucas Novack")
+    utils_module.centered_print("Lucas Ortiz (Gaúcho)")
+    utils_module.centered_print("Pedro Vilmar dos Santos")
+    utils_module.centered_print("Ricardo José da Silva")
+    utils_module.centered_print("Santos Dumont")
+    utils_module.centered_print("Alan Turing")
+    utils_module.centered_print("Albus Dumbledore")
+    print()
+    print()
+    print()
+    utils_module.press_any_key()

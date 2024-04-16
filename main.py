@@ -16,8 +16,7 @@ while True:
         case 'configs':
             config_module.configs_menu()
         case 'credits':
-            print('CREDITOS')
-            input()
+            menu_module.show_credtis()
         case 'exit':
             if menu_module.confirm_menu_action('Deseja realmente sair do jogo?'):
                 print("Muito obrigado por jogar Humans vs Capy!")
